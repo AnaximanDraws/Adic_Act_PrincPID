@@ -1,0 +1,61 @@
+<div class="container mt-4">
+  <h2>Adicionar actividad principal</h2>
+  
+  <form [formGroup]="actividadForm" (ngSubmit)="onSubmit()">
+    <!-- Denominación -->
+    <div class="mb-3">
+      <label class="form-label fw-bold">Denominación *</label>
+      <input 
+        type="text" 
+        class="form-control" 
+        formControlName="denominacion"
+        [class.is-invalid]="actividadForm.get('denominacion')?.invalid && actividadForm.get('denominacion')?.touched">
+      <div *ngIf="actividadForm.get('denominacion')?.invalid && actividadForm.get('denominacion')?.touched" 
+           class="invalid-feedback">
+        La denominación es obligatoria
+      </div>
+    </div>
+
+    <hr class="my-4">
+    
+    <h5 class="mb-3">Datos generales</h5>
+    
+    <!-- Año -->
+    <div class="mb-3">
+      <label class="form-label fw-bold">Año *</label>
+      <input 
+        type="number" 
+        class="form-control" 
+        formControlName="year"
+        readonly>
+    </div>
+
+    <!-- Meses -->
+    <div class="mb-4">
+      <label class="form-label fw-bold">Mes(es) *</label>
+      
+      <div *ngIf="actividadForm.get('selectedMonths')?.value?.length === 0" 
+           class="text-muted mb-2">
+        Sin meses seleccionados
+      </div>
+      
+      <div class="d-flex flex-wrap gap-2">
+        <button 
+          *ngFor="let month of months" 
+          type="button"
+          class="btn btn-outline-primary"
+          [class.active]="isMonthSelected(month)"
+          (click)="toggleMonth(month)">
+          {{ month }}
+        </button>
+      </div>
+      
+      <div *ngIf="actividadForm.get('selectedMonths')?.invalid && actividadForm.get('selectedMonths')?.touched" 
+           class="text-danger mt-2">
+        Debe seleccionar al menos un mes
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+  </form>
+</div>
